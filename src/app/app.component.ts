@@ -30,7 +30,7 @@ export class AppComponent {
   
   ngOnInit(){
     this.todoInput = '';
-    // Get todos from local storage
+    // Get todos from local storage.
 
     this.todos = JSON.parse(localStorage.getItem('todos'));
     // alert(this.todos.length)
