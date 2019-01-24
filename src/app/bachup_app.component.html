@@ -1,0 +1,35 @@
+<div class="container mx-auto">
+  <div class="flex flex-col pt-10">
+    <div class="text-center">
+      <h1>Todo</h1>
+    </div>
+    <div class="flex justify-center pt-10">
+      <div class="w-full" >
+        <div class="mb-6">
+          <div>
+            <input [(ngModel)]="todoInput" (keyup.enter)="addTodo(this)" class="bg-grey-lighter appearance-none border-2 border-grey-lighter rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-grey-light focus:border-blue-lighter" id="todoInput" type="text" placeholder="Finish this app">
+          </div>
+        </div>
+        <!-- <div class="flex justify-center">
+          <button class="bg-blue hover:bg-blue-light focus:outline-none text-white font-bold py-3 px-10 rounded" type="button">
+            Add
+          </button>
+        </div> -->
+      </div>
+    </div>
+    <div class="flex">
+      <div *ngIf="todos.length === 0; else todoList">
+        <p>All clear</p>
+      </div>
+      <ng-template #todoList>
+        <ul class="list-reset">
+          <li class="p-3" *ngFor="let todo of todos">
+            <p class="text-xl">{{ todo.todo }}</p>
+          </li>
+        </ul>
+      </ng-template>
+    </div>
+
+  </div>
+</div>
+

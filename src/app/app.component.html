@@ -3,31 +3,37 @@
     <div class="text-center">
       <h1>Todo</h1>
     </div>
+
     <div class="flex justify-center pt-10">
-      <div class="w-full" >
+      <div class="w-full p-3" >
         <div class="mb-6">
           <div>
-            <input [(ngModel)]="todoInput" (keyup.enter)="addTodo(this)" class="bg-grey-lighter appearance-none border-2 border-grey-lighter rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-grey-light focus:border-blue-lighter" id="todoInput" type="text" placeholder="Finish this app">
+            <input [(ngModel)]="todoInput" (keyup.enter)="addTodo(this)" class="bg-grey-lighter appearance-none border-2 border-grey-lighter rounded w-full py-4 px-4 text-grey-darker font-semibold leading-tight focus:outline-none focus:bg-grey-light focus:border-blue-lighter" id="todoInput" type="text" placeholder="Finish this app">
           </div>
         </div>
-        <!-- <div class="flex justify-center">
-          <button class="bg-blue hover:bg-blue-light focus:outline-none text-white font-bold py-3 px-10 rounded" type="button">
-            Add
-          </button>
-        </div> -->
       </div>
     </div>
-    <div class="flex">
+
+    <div class="p-3">
       <div *ngIf="todos.length === 0; else todoList">
-        <p>All clear</p>
+        <div class="flex w-full bg-grey my-20 px-5 py-5 justify-center text-xl font-semibold">
+          <p>All clear</p>
+        </div>
       </div>
-      <ng-template #todoList>
-        <ul class="list-reset">
-          <li class="p-3" *ngFor="let todo of todos">
-            <p class="text-xl">{{ todo.todo }}</p>
-          </li>
-        </ul>
-      </ng-template>
+    </div>
+
+    <div *ngIf="todos.length > 0">
+      <div  class="flex mb-2 px-3" *ngFor="let todo of todos" >
+        <div (dblclick)="editTodo(todo)" class="flex w-2/3 items-center bg-grey py-1 px-1 text-xl font-semibold">
+          {{ todo.todo }}
+        </div>
+        <!-- <input (keyup.enter)="addTodo(this)" class="flex w-2/3 items-center bg-grey py-1 px-1 text-xl font-semibold" id="todoInput" type="text" placeholder="Finish this app"> -->
+        <div class="flex items-center justify-center w-1/3 bg-grey-light py-1 px-1 ">
+          <div class="flex">
+            <i (click)="deleteTodo(todo)" class="fas fa-times-circle text-3xl"></i>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
