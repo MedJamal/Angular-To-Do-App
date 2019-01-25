@@ -9,8 +9,11 @@ interface Todo {
   id: string,
   todo: string,
   isDone: boolean,
-  createdAt: number
+  createdAt: number,
+  onEdit: boolean;
 }
+
+
 
 @Component({
   selector: 'app-root',
@@ -24,6 +27,8 @@ export class AppComponent {
 
   todoInput: string;
   todos: Todo[];
+  EditTodoInput: string;
+  
   
   constructor(){
     // Check if local storage is empty, if empty fill it with empty array
@@ -34,7 +39,7 @@ export class AppComponent {
   
   ngOnInit(){
     this.todoInput = '';
-
+    this.EditTodoInput = '';
     // Get todos from local storage.
     this.todos = JSON.parse(localStorage.getItem('todos'));
 
@@ -47,7 +52,8 @@ export class AppComponent {
       id: Md5.init(Date.now()),
       todo: this.todoInput,
       isDone: false,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      onEdit: false
     });
     
     // Save todo to the local storage
@@ -63,9 +69,20 @@ export class AppComponent {
     localStorage.setItem('todos', JSON.stringify(this.todos));
   }
 
+  onEditTodo(todo){
+    // console.log(todo);
+    // console.log(this.todos.indexOf(todo));
+
+    // chenge onEdit property of element to true to show the input and hide the text of current todo
+    this.todos[this.todos.indexOf(todo)].onEdit = true;
+
+    // Inisial the input with the current todo value
+    this.EditTodoInput = todo.todo;
+  }
+
   editTodo(todo){
-    console.log(todo);
-    
+    this.todos[this.todos.indexOf(todo)].todo = this.EditTodoInput;
+    this.todos[this.todos.indexOf(todo)].onEdit = false;
     localStorage.setItem('todos', JSON.stringify(this.todos));
   }
 

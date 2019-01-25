@@ -23,11 +23,13 @@
     </div>
 
     <div *ngIf="todos.length > 0">
-      <div  class="flex mb-2 px-3" *ngFor="let todo of todos" >
-        <div (dblclick)="editTodo(todo)" class="flex w-2/3 items-center bg-grey py-1 px-1 text-xl font-semibold">
+      <div class="flex mb-2 px-3" *ngFor="let todo of todos" >
+        <div *ngIf="todo.onEdit === false" (dblclick)="onEditTodo(todo)" class="flex w-2/3 items-center bg-grey py-1 px-1 text-xl font-semibold">
           {{ todo.todo }}
         </div>
-        <!-- <input (keyup.enter)="addTodo(this)" class="flex w-2/3 items-center bg-grey py-1 px-1 text-xl font-semibold" id="todoInput" type="text" placeholder="Finish this app"> -->
+        <div *ngIf="todo.onEdit === true" >
+          <input [(ngModel)]="EditTodoInput" (keyup.enter)="editTodo(todo)" class="flex w-2/3 items-center bg-grey py-1 px-1 text-xl font-semibold" id="todoInput" type="text" placeholder="Finish this app">
+        </div>
         <div class="flex items-center justify-center w-1/3 bg-grey-light py-1 px-1 ">
           <div class="flex">
             <i (click)="deleteTodo(todo)" class="fas fa-times-circle text-3xl"></i>
