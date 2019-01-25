@@ -28,6 +28,8 @@ export class AppComponent {
   todoInput: string;
   todos: Todo[];
   EditTodoInput: string;
+  tasksToShow: boolean;
+  filterTodos: string;
   
   
   constructor(){
@@ -42,11 +44,14 @@ export class AppComponent {
     this.EditTodoInput = '';
     // Get todos from local storage.
     this.todos = JSON.parse(localStorage.getItem('todos'));
-
-    // alert(this.todos.length)
+    
+    this.tasksToShow = false;
+    this.filterTodos = 'all';
   }
   
   addTodo() {
+
+    if (this.todoInput.length === 0) return;
     
     this.todos.push({
       id: Md5.init(Date.now()),
@@ -73,7 +78,7 @@ export class AppComponent {
     // console.log(todo);
     // console.log(this.todos.indexOf(todo));
 
-    // chenge onEdit property of element to true to show the input and hide the text of current todo
+    // chenge onEdit property of element to true to show the input and hide the text of the current todo
     this.todos[this.todos.indexOf(todo)].onEdit = true;
 
     // Inisial the input with the current todo value
@@ -81,9 +86,35 @@ export class AppComponent {
   }
 
   editTodo(todo){
-    this.todos[this.todos.indexOf(todo)].todo = this.EditTodoInput;
-    this.todos[this.todos.indexOf(todo)].onEdit = false;
+    if (this.EditTodoInput.length === 0) return this.todos[this.todos.indexOf(todo)].onEdit = false;
+    let todoItem = this.todos[this.todos.indexOf(todo)];
+    
+    todoItem.todo = this.EditTodoInput;
+    todoItem.onEdit = false;
     localStorage.setItem('todos', JSON.stringify(this.todos));
   }
 
+  cancelEdit(todo){
+    this.EditTodoInput = '';
+    this.todos[this.todos.indexOf(todo)].onEdit = false;
+  }
+
+  // (clickOutside)="outSideClicked(todo)"
+  // outSideClicked(todo){
+  //   this.EditTodoInput = '';
+  //   this.todos[this.todos.indexOf(todo)].onEdit = false;
+  // }
+
+  doneTodo(todo){
+    this.todos[this.todos.indexOf(todo)].isDone = !this.todos[this.todos.indexOf(todo)].isDone;
+    localStorage.setItem('todos', JSON.stringify(this.todos));
+  }
+
+  filtringTodos(){
+    // this.todos.filter(todo => !todo.isDone);
+    if (this.filterTodos === 'all') return this.todos;
+    if (this.filterTodos === 'uncompleted') return this.todos.filter(todo => !todo.isDone);
+    if (this.filterTodos === 'completed') return this.todos.filter(todo => todo.isDone);
+  }
+  
 }
