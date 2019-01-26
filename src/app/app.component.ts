@@ -30,6 +30,8 @@ export class AppComponent {
   EditTodoInput: string;
   tasksToShow: boolean;
   filterTodos: string;
+  isOnEdit: boolean;
+
   
   
   constructor(){
@@ -45,6 +47,8 @@ export class AppComponent {
     // Get todos from local storage.
     this.todos = JSON.parse(localStorage.getItem('todos'));
     
+    this.isOnEdit = false;
+
     this.tasksToShow = false;
     this.filterTodos = 'all';
   }
@@ -75,8 +79,9 @@ export class AppComponent {
   }
 
   onEditTodo(todo){
-    // console.log(todo);
-    // console.log(this.todos.indexOf(todo));
+    
+    if(this.isOnEdit) return;
+    this.isOnEdit = true;
 
     // chenge onEdit property of element to true to show the input and hide the text of the current todo
     this.todos[this.todos.indexOf(todo)].onEdit = true;
@@ -86,24 +91,26 @@ export class AppComponent {
   }
 
   editTodo(todo){
-    if (this.EditTodoInput.length === 0) return this.todos[this.todos.indexOf(todo)].onEdit = false;
+    if (this.EditTodoInput.length === 0) {
+      this.todos[this.todos.indexOf(todo)].onEdit = false;
+      this.isOnEdit = false;
+      return;
+    }
     let todoItem = this.todos[this.todos.indexOf(todo)];
     
     todoItem.todo = this.EditTodoInput;
     todoItem.onEdit = false;
+    this.isOnEdit = false;
     localStorage.setItem('todos', JSON.stringify(this.todos));
   }
 
   cancelEdit(todo){
     this.EditTodoInput = '';
     this.todos[this.todos.indexOf(todo)].onEdit = false;
-  }
+    this.isOnEdit = false;
 
-  // (clickOutside)="outSideClicked(todo)"
-  // outSideClicked(todo){
-  //   this.EditTodoInput = '';
-  //   this.todos[this.todos.indexOf(todo)].onEdit = false;
-  // }
+    console.log('called');
+  }
 
   doneTodo(todo){
     this.todos[this.todos.indexOf(todo)].isDone = !this.todos[this.todos.indexOf(todo)].isDone;
@@ -115,6 +122,20 @@ export class AppComponent {
     if (this.filterTodos === 'all') return this.todos;
     if (this.filterTodos === 'uncompleted') return this.todos.filter(todo => !todo.isDone);
     if (this.filterTodos === 'completed') return this.todos.filter(todo => todo.isDone);
+  }
+
+  tasksRemaiming(){
+    let remaining = this.todos.filter(todo => !todo.isDone).length;
+    
+    if (remaining === 0) {
+      return 'All done';
+    } else if (remaining === 1) {
+      return 'One task left';
+    } else {
+      return `${remaining} tasks left`;
+    }
+
+    return this.todos.filter(todo => !todo.isDone).length;
   }
   
 }

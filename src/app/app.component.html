@@ -8,7 +8,7 @@
       <div class="w-full p-3" >
         <div class="mb-6">
           <div>
-            <input [(ngModel)]="todoInput" (keyup.enter)="addTodo(this)" class="bg-grey-lighter appearance-none border-2 border-grey-lighter rounded w-full py-4 px-4 text-grey-darker font-semibold leading-tight focus:outline-none focus:bg-grey-light focus:border-blue-lighter" id="todoInput" type="text" placeholder="Finish this app">
+            <input [(ngModel)]="todoInput" (keyup.enter)="addTodo(this)" class="bg-grey-lighter appearance-none border-2 border-grey-light rounded w-full py-4 px-4 text-grey-darker font-semibold leading-tight focus:outline-none focus:bg-grey-light" id="todoInput" type="text" placeholder="Finish this app">
           </div>
         </div>
       </div>
@@ -16,21 +16,21 @@
 
     <div class="p-3">
       <div *ngIf="todos.length === 0; else todoList">
-        <div class="flex w-full bg-grey my-20 px-5 py-5 justify-center text-xl font-semibold">
-          <p>All clear</p>
+        <div class="flex w-full my-20 px-5 py-5 justify-center text-xl text-grey font-semibold">
+          <p>You don't make any task!</p>
         </div>
       </div>
     </div>
 
     <div *ngIf="todos.length > 0">
       <div class="flex mb-2 px-3" *ngFor="let todo of filtringTodos()" >
-        <div *ngIf="todo.onEdit === false" (dblclick)="onEditTodo(todo)" class="flex w-2/3 items-center {{!todo.isDone ? 'bg-grey' : 'bg-green italic'}} py-1 px-1 text-xl font-semibold">
+        <div *ngIf="todo.onEdit === false" (dblclick)="onEditTodo(todo)" class="flex w-2/3 items-center {{!todo.isDone ? 'bg-grey' : 'bg-green italic'}} py-3 px-3 text-xl font-semibold rounded-bl-lg rounded-tl-lg">
           {{ todo.todo }}
         </div>
-        <div class="flex w-full items-center bg-grey-lighter py-1 px-1 text-xl font-bold" *ngIf="todo.onEdit === true" >
-          <input [(ngModel)]="EditTodoInput" (keyup.enter)="editTodo(todo)" (keyup.esc)="cancelEdit(todo)" class="flex w-full items-center bg-grey-lighter py-1 px-1 text-xl font-semibold" id="todoInput" type="text">
+        <div class="flex w-full items-center bg-grey-lighter py-1 px-1 text-xl font-bold border-2 border-grey rounded-lg" *ngIf="todo.onEdit === true" >
+          <input [(ngModel)]="EditTodoInput" (keyup.enter)="editTodo(todo)" (keyup.esc)="cancelEdit(todo)" class="flex w-full h-10 items-center bg-grey-lighter py-1 px-1 text-xl font-semibold focus:outline-none" id="todoInput" type="text">
         </div>
-        <div *ngIf="todo.onEdit === false" class="flex items-center justify-center w-1/3 bg-grey-light py-1 px-1 ">
+        <div *ngIf="todo.onEdit === false" class="flex items-center justify-center w-1/3 bg-grey-light py-1 px-1 rounded-br-lg rounded-tr-lg">
           <div class="flex">
               <i (click)="doneTodo(todo)" class="fas fa-check-circle text-3xl px-5 {{!todo.isDone ? 'text-blue' : 'text-green'}}"></i>
             </div>
@@ -40,23 +40,30 @@
         </div>
       </div>
     </div>
-
-    <div class="border border-dashed m-3"></div>
-  
-
-    <div class="inline-flex justify-end">
-      <button (click)="filterTodos = 'uncompleted'" class="{{ filterTodos === 'uncompleted' ? 'bg-grey cursor-not-allowed' : 'bg-grey-light'}}  hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-l">
-        Uncompleted
-      </button>
-      <button (click)="filterTodos = 'completed'" class="{{ filterTodos === 'completed' ? 'bg-grey cursor-not-allowed' : 'bg-grey-light'}} hover:bg-grey text-grey-darkest font-bold py-2 px-4">
-        Completed
-      </button>
-      <button (click)="filterTodos = 'all'" class="{{ filterTodos === 'all' ? 'bg-grey cursor-not-allowed' : 'bg-grey-light'}} hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-r">
-        All
-      </button>
-    </div>
+    
+    <!-- <div class="fixed sticky pin-b bg-grey-lighter"> -->
+      <div class="border border-dashed m-4"></div>
+      
+      <div class="flex justify-end pr-3">
+        <p class="font-bold rounded-full  py-2 px-4 {{ tasksRemaiming() === 'All done' ? 'bg-green text-white' : 'bg-grey text-grey-darkest' }}">{{ tasksRemaiming() }}</p>
+      </div>
+      
+      <div class="border border-dashed m-4"></div>
+      
+      
+      <div class="flex justify-end mb-10 px-3">
+        <button (click)="filterTodos = 'uncompleted'" class="{{ filterTodos === 'uncompleted' ? 'bg-grey cursor-not-allowed' : 'bg-grey-light'}} focus:outline-none hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-l">
+          Uncompleted
+        </button>
+        <button (click)="filterTodos = 'completed'" class="{{ filterTodos === 'completed' ? 'bg-grey cursor-not-allowed' : 'bg-grey-light'}} focus:outline-none hover:bg-grey text-grey-darkest font-bold py-2 px-4">
+          Completed
+        </button>
+        <button (click)="filterTodos = 'all'" class="{{ filterTodos === 'all' ? 'bg-grey cursor-not-allowed' : 'bg-grey-light'}} focus:outline-none hover:bg-grey text-grey-darkest font-bold py-2 px-4 rounded-r">
+          All
+        </button>
+      </div>
+    <!-- </div> -->
 
 
   </div>
 </div>
-
