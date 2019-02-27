@@ -135,7 +135,6 @@ export class AppComponent {
       return `${remaining} tasks left`;
     }
 
-    return this.todos.filter(todo => !todo.isDone).length;
   }
   
 }
